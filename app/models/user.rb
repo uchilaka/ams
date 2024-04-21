@@ -10,15 +10,20 @@
 #  confirmed_at           :datetime
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  failed_attempts        :integer          default(0), not null
 #  family_name            :string
 #  given_name             :string
+#  last_request_at        :datetime
+#  locked_at              :datetime
 #  nickname               :string
 #  providers              :string           default([]), is an Array
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  timeout_in             :integer          default(1800)
 #  uids                   :jsonb
 #  unconfirmed_email      :string
+#  unlock_token           :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -30,7 +35,8 @@
 #
 class User < ApplicationRecord
   include MaintainsMetadata
-
+  # JWT model configuration docs: https://github.com/waiting-for-dev/devise-jwt?tab=readme-ov-file#model-configuration
+  include Devise::JWT::RevocationStrategies::Allowlist
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   #
@@ -38,7 +44,8 @@ class User < ApplicationRecord
   # Guide on adding confirmable: https://github.com/heartcombo/devise/wiki/How-To:-Add-:confirmable-to-Users
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable,
-         :omniauthable, omniauth_providers: %i[google]
+         :jwt_authenticatable, jwt_revocation_strategy: self
+  devise :omniauthable, omniauth_providers: %i[google]
 
   alias_attribute :first_name, :given_name
   alias_attribute :last_name, :family_name
@@ -71,6 +78,10 @@ class User < ApplicationRecord
 
     profile[Current.auth_provider.provider]
   end
+
+  # def jwt_payload
+  #   super.merge(foo: 'bar')
+  # end
 
   # https://github.com/heartcombo/devise?tab=readme-ov-file#active-job-integration
   # def send_devise_notification(notification, *args)

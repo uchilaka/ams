@@ -87,6 +87,8 @@ group :development, :test do
 end
 
 group :development do
+  # A Ruby language server
+  gem 'solargraph'
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem 'web-console'
 
@@ -128,6 +130,12 @@ end
 
 # Flexible authentication solution for Rails with Warden https://github.com/heartcombo/devise
 gem 'devise'
+# JWT authentication for devise
+gem 'devise-jwt', '~> 0.11'
+# Middleware for enabling Cross-Origin Resource Sharing in Rack apps
+gem 'rack-cors', '~> 2.0'
+
+# OmniAuth is a flexible authentication system utilizing Rack middleware [
 
 # Passwordless (email-only) login strategy for Devise https://github.com/abevoelker/devise-passwordless
 gem 'devise-passwordless'

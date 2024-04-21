@@ -1,0 +1,56 @@
+env:
+  browser: true
+  es2021: true
+extends:
+  - 'eslint:recommended'
+  - 'plugin:react/recommended'
+  - 'plugin:react-hooks/recommended'
+  - 'plugin:prettier/recommended'
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: 13
+  sourceType: module
+plugins:
+  - react
+  - react-hooks
+  - '@typescript-eslint'
+  - prettier
+rules:
+  semi:
+    - 'warn'
+    - 'never'
+  'react/react-in-jsx-scope': 1
+  'no-mixed-spaces-and-tabs': 0
+  'camelcase': 'off'
+  'comma-dangle': ['warn', 'always-multiline']
+  'react/prop-types': 'off'
+  'react/forbid-prop-types': 0
+  'react/require-default-props': 0
+  'react/jsx-filename-extension': 0
+  'jsx-a11y/click-events-have-key-events': 0
+  'react/default-props-match-prop-types': [0, { 'allowRequiredDefaults': true }]
+  'no-param-reassign': 0
+  'react/no-array-index-key': 0
+  'react/jsx-props-no-spreading': 0
+  'no-console': 0
+  'jsx-a11y/anchor-is-valid': 0
+  'no-shadow': 0
+  'react-hooks/rules-of-hooks': 'error'
+  'react-hooks/exhaustive-deps': 'warn'
+  'no-use-before-define': ['error', { 'functions': false, 'classes': true, 'variables': false }]
+  'no-unused-vars': 'off'
+  '@typescript-eslint/no-unused-vars':
+    [
+      'warn',
+      {
+        'args': 'all',
+        'argsIgnorePattern': '^_',
+        'caughtErrors': 'all',
+        'caughtErrorsIgnorePattern': '^_',
+        'destructuredArrayIgnorePattern': '^_',
+        'varsIgnorePattern': '^_',
+        'ignoreRestSiblings': false,
+      },
+    ]

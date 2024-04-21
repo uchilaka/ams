@@ -1,5 +1,7 @@
 # Customer Accounts Management & Invoicing MVP
 
+> Reference template: <https://github.com/IsraelDCastro/rails-vite-tailwindcss-template>
+
 - [Customer Accounts Management \& Invoicing MVP](#customer-accounts-management--invoicing-mvp)
   - [Ruby Version](#ruby-version)
   - [Service/Vendor dependencies](#servicevendor-dependencies)
@@ -26,6 +28,8 @@
   - [Integration Partners](#integration-partners)
     - [PayPal](#paypal)
   - [Guides and References](#guides-and-references)
+  - [Known issues](#known-issues)
+    - [Issues with ESM Support](#issues-with-esm-support)
   - [Future Work](#future-work)
 
 ## Ruby Version
@@ -101,6 +105,8 @@ The `.envrc` (see `.envrc.example`) file should be included for compatibility wi
 brew bundle
 # Setup the ASDF dependencies file
 cp -v .tool-versions.example .tool-versions
+# Set bundler location
+bundle config set --local path ./vendor/bundle
 # Install Ruby dependencies
 bundle install
 # Install Node dependencies
@@ -361,8 +367,27 @@ bin/thor help lx-cli:secrets:print_key
 - [Feature flags for backup providers](https://www.flippercloud.io/docs/guides/backup-providers) e.g. with feature flagging payment providers like Stripe, PayPal & SplitIt or auth providers like Apple, Google & native passwordless authentication
 - [Dynamic roles in a Rails app](https://nicholusmuwonge.medium.com/dynamic-roles-in-a-rails-app-using-rolify-devise-invitable-and-pundit-b72011451239)
 
+## Known issues
+
+### Issues with ESM Support
+
+> Link to a helpful comment on a related Github issue: <https://github.com/yarnpkg/yarn/issues/8994#issuecomment-1870052819>
+
+Each time a new dependency is added, you'll need to nuke the `yarn.lock` file before `yarn test` is able to run successfully again. The error looks like this:
+
+```shell
+yarn run v1.22.21
+$ jest
+Error [ERR_REQUIRE_ESM]: require() of ES Module /opt/Developer/@larcity/account_manager/node_modules/string-width/index.js from /opt/Developer/@larcity/account_manager/node_modules/cliui/build/index.cjs not supported.
+Instead change the require of index.js in /opt/Developer/@larcity/account_manager/node_modules/cliui/build/index.cjs to a dynamic import() which is available in all CommonJS modules.
+    at Object.<anonymous> (/opt/Developer/@larcity/account_manager/node_modules/cliui/build/index.cjs:291:21)
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+```
+
 ## Future Work
 
+- [ ] A JS Auth flow to emit and retain the JWT token for frontend access control features and initialize the rails session for everything else
 - [x] Implement forbidden rescue page (or just set a flash message and redirect to the root path)
 - [ ] "Continue with Google" quick link in the profile dropdown
 - [ ] AASM for account status
@@ -382,3 +407,4 @@ bin/thor help lx-cli:secrets:print_key
 - [ ] Playwright E2E test suite
 - [ ] Implement default authorization policies
 - [ ] **Consolidate vite configuration & dependencies** right now, vite is a dependency of both the front and backend separately. Is there a better way?
+- [ ] Address error from working on rails project in VSCode: `/Users/localadmin/.asdf/installs/ruby/3.2.2/bin/ruby: warning: Ruby was built without YJIT support. You may need to install rustc to build Ruby with YJIT.`
