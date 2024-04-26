@@ -21,7 +21,7 @@ gem 'flipper-redis', '~> 1.2'
 gem 'flipper-ui', '~> 1.2'
 
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.5'
 
 # Elegant Persistence in Ruby for MongoDB.
 gem 'mongoid', '~> 8.1.0'
