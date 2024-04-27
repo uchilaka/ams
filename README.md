@@ -387,6 +387,7 @@ bin/thor help lx-cli:secrets:print_key
 - [ ] Setup secrets using [docker images' compatibility with secret files](https://docs.docker.com/compose/use-secrets/)
 - [ ] [Vite CJS API is deprecated and will be removed in v6](https://vitejs.dev/guide/troubleshooting.html#vite-cjs-node-api-deprecated). Update the `vite.config.js` file to use the ESM build instead
 - [ ] [New ESLint configuration system is available](https://eslint.org/docs/latest/use/configure/configuration-files-new). You will need to create a new `eslint.config.js` file to use the new configuration system
+- [ ] Confirm account changes with OTP (email, TOTP), magic links, or passkey
 - [ ] Setup RSwag for baller request specs & API tools
 - [ ] Setup flipper for feature flags
 - [ ] Knapsack Pro for parallelizing tests

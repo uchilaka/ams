@@ -5,6 +5,7 @@ require 'sidekiq/web'
 require 'sidekiq/cron/web'
 
 Rails.application.routes.draw do
+  resources :invoices
   get 'healthz', to: 'healthz#show'
 
   devise_for :users,
@@ -32,6 +33,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :invoices, except: %i[destroy]
   resources :services, except: %i[destroy]
   resources :products, except: %i[destroy]
   resources :accounts, except: %i[destroy]

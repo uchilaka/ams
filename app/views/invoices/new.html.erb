@@ -1,0 +1,7 @@
+<div class="mx-auto sm:w-9/12 md:w-6/12 w-full">
+  <h1 class="font-bold text-4xl">New invoice</h1>
+
+  <%= render "form", invoice: @invoice %>
+  <hr class="my-8">
+  <%= link_to 'Back to invoices', invoices_path, class: "btn btn-secondary" %>
+</div>

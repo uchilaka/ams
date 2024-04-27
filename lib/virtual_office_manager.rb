@@ -11,15 +11,18 @@ class VirtualOfficeManager
       ENV.fetch('HOSTNAME', Rails.application.credentials.hostname)
     end
 
+    def hostname_is_nginx_proxy?
+      /\.ngrok\.(dev|app)/.match?(hostname)
+    end
+
     def default_url_options
       # Only run this in the context of a job
-      unless defined?(Rails::Server)
+      if !defined?(Rails::Server) && Flipper.enabled?(:feat__hostname_health_check)
         healthz_endpoint = "https://#{hostname}/healthz"
         return { host: hostname } if AppUtils.healthy?(healthz_endpoint)
       end
-      return { host: hostname } unless Rails.env.development?
 
-      { host: 'localhost', port: ENV.fetch('PORT') }
+      { host: hostname, port: hostname_is_nginx_proxy? ? nil : ENV.fetch('PORT') }.compact
     end
 
     def default_entity

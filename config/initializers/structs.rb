@@ -8,7 +8,7 @@
 Struct.new('Company', :name, :email, :tax_id, keyword_init: true)
 # Initialize a struct for vendor API credentials & config combos
 #   saved in the app credentials file
-Struct.new('VendorConfig', :base_url, :client_id, :client_secret, keyword_init: true)
+Struct.new('VendorConfig', :base_url, :api_base_url, :client_id, :client_secret, keyword_init: true)
 # Initialize a struct of navbar menu items
 # TODO: Implement as MenuItem (in "navbar" context) active record class
 #   with support for I18n, accessibility features, icons, pundit and

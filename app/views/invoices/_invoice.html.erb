@@ -1,0 +1,7 @@
+<div id="<%= dom_id invoice %>" class="bg-white p-6 shadow-sm rounded overflow-hidden">
+<% if action_name != "show" %>
+    <%= link_to "Show this invoice", invoice, class: "btn btn-primary" %>
+    <%= link_to 'Edit this invoice', edit_invoice_path(invoice), class: "btn btn-secondary" %>
+    <hr class="mt-6">
+  <% end %>
+</div>

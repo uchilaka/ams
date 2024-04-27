@@ -21,6 +21,8 @@
 
 # Doc on Rails STI: https://guides.rubyonrails.org/association_basics.html#single-table-inheritance-sti
 class Account < ApplicationRecord
+  rolify
+
   include AASM
 
   # There are security implications to consider when using deterministic encryption.

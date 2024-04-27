@@ -19,6 +19,8 @@
 #  index_accounts_on_tax_id  (tax_id) UNIQUE WHERE (tax_id IS NOT NULL)
 #
 class Business < Account
+  resourcify
+
   include MaintainsMetadata
 
   delegate :email, to: :metadata, allow_nil: true

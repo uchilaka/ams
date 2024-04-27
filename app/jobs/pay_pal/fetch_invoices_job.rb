@@ -52,7 +52,16 @@ module PayPal
       # Batch create the records
       results = Invoice.create(@processed_records)
 
-      Rails.logger.info "Saved #{results.count} records" if results.all?
+      if results&.all?(&:valid?)
+        Rails.logger.info "Saved #{results.count} records"
+      else
+        saved_records = results.reject { |record| record.errors.any? }
+        Rails.logger.warn "Saved #{saved_records.count} of #{@processed_records.count} records"
+        # IMPORTANT: Error records will now have contents that are either
+        #   hashes or invalid instances of Invoice
+        @error_records += results.select { |record| record.errors.any? }
+        Rails.logger.error "Failed to save #{error_records.count} records"
+      end
     rescue StandardError => e
       Rails.logger.error "#{self.class.name} failed", message: e.message
     end
@@ -75,9 +84,9 @@ module PayPal
     def process_record(record)
       vendor_record_id = record['id']
       status, detail, invoicer, primary_recipients,
-        amount, due_amount, payments, links = record.values_at(
+        amount, due_amount, payments, links, vendor_recurring_group_id = record.values_at(
           'status', 'detail', 'invoicer', 'primary_recipients',
-          'amount', 'due_amount', 'payments', 'links'
+          'amount', 'due_amount', 'payments', 'links', 'recurring_Id'
         )
       invoice_number, invoiced_at, viewed_by_recipient,
         currency_code, note = detail.values_at(
@@ -104,8 +113,10 @@ module PayPal
 
       {
         vendor_record_id:,
+        vendor_recurring_group_id:,
         invoice_number:,
         vendor_id: vendor.id,
+        payment_vendor: 'paypal',
         status:,
         invoicer:,
         accounts:,

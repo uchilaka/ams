@@ -1,0 +1,20 @@
+<!-- TODO: Finish building out filter feature -->
+<% if invoice.recurring? %>
+  <% record_tooltip_id = record_dom_id invoice, prefix: 'tooltip-filter-by-recurring' %>
+  <a href="?f[][billingType]=recurring" data-tooltip-target="<%= record_tooltip_id %>">
+    <span class="bg-pink-100 text-pink-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300">Recurring series</span>
+  </a>
+  <div id="<%= record_tooltip_id %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 normal-case">
+    Filter by recurring series payments
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+<% else %>
+  <% record_tooltip_id = record_dom_id invoice, prefix: 'tooltip-filter-by-recurring' %>
+  <a href="?f[][billingType]=one-time" data-tooltip-target="<%= record_tooltip_id %>">
+    <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">One-time</span>
+  </a>
+  <div id="<%= record_tooltip_id %>" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 normal-case">
+    Filter by one-time payments
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+<% end %>

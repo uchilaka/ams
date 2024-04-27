@@ -3,7 +3,7 @@
 module LogUtils
   class << self
     def streaming_enabled?
-      AppUtils.yes? ENV.fetch('ENABLE_LOG_STREAMING', 'yes')
+      AppUtils.yes? ENV.fetch('SEMANTIC_LOGGER_STREAMING_ENABLED', 'yes')
     end
 
     def streaming_via_http?

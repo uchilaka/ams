@@ -52,9 +52,13 @@ en:
       services: "Services"
       products: "Products"
       accounts: "Accounts"
+      invoices: "Invoices"
       sign_out: "Sign Out"
       registration: "Settings"
   models:
     account:
       errors:
         user_limit_exceeded: "cannot have more than one user"
+    invoice:
+      errors:
+        invalid_payment_vendor: "is not a valid payment vendor"

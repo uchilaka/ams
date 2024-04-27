@@ -18,7 +18,7 @@ module PayPal
         ) do
           # NOTE: When working in development to update the cassette, disable this block
           with_modified_env(
-            PAYPAL_BASE_URL: Rails.application.credentials.paypal.base_url,
+            PAYPAL_API_BASE_URL: Rails.application.credentials.paypal.api_base_url,
             PAYPAL_CLIENT_ID: Rails.application.credentials.paypal.client_id,
             PAYPAL_CLIENT_SECRET: Rails.application.credentials.paypal.client_secret
           ) do

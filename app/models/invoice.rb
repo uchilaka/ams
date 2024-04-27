@@ -5,8 +5,9 @@ class Invoice
   include Mongoid::Attributes::Dynamic
 
   field :vendor_record_id, type: String
+  field :vendor_recurring_group_id, type: String
   field :invoice_number, type: String
-  field :vendor, type: String
+  field :payment_vendor, type: String
   field :status, type: String
   # { email_address }
   field :invoicer, type: Hash
@@ -22,4 +23,18 @@ class Invoice
   # { payments: { paid_amount: { currency_code, value } } }
   field :payments, type: Hash
   field :links, type: Array
+
+  validates :payment_vendor,
+            presence: true,
+            inclusion: { in: %w[paypal] }
+
+  PAYPAL_BASE_URL = ENV.fetch('PAYPAL_BASE_URL', Rails.application.credentials.paypal&.base_url).freeze
+
+  def payment_vendor_url
+    "#{PAYPAL_BASE_URL}/invoice/s/details/#{vendor_record_id}"
+  end
+
+  def recurring?
+    vendor_recurring_group_id.present?
+  end
 end

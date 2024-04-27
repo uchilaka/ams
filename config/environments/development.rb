@@ -26,8 +26,8 @@ Rails.application.configure do
   config.server_timing = true
 
   config.rails_semantic_logger.started    = true
-  config.rails_semantic_logger.processing = true
-  config.rails_semantic_logger.rendered   = true
+  config.rails_semantic_logger.processing = AppUtils.yes?(ENV.fetch('SEMANTIC_LOGGER_PROCESSING_ENABLED', 'no'))
+  config.rails_semantic_logger.rendered   = AppUtils.yes?(ENV.fetch('SEMANTIC_LOGGER_RENDERED_ENABLED', 'no'))
   config.semantic_logger.backtrace_level = :info
   config.log_level = :debug
 
@@ -79,19 +79,16 @@ Rails.application.configure do
       { address: 'localhost', port: 1025 }
     end
 
-  config.after_initialize do
-    # Configure logging for the app's mail service.
-    config.action_mailer.logger = Rails.logger
-  end
+  # Configure logging for the app's mail service.
+  config.action_mailer.logger = Rails.logger
+  # IMPORTANT: This will affect whether letter_opener can open the email in the browser or not
+  # TODO: Spec this config across development, staging and production
+  config.action_mailer.default_url_options = VirtualOfficeManager.default_url_options
 
-  if defined?(Rails::Server)
-    config.after_initialize do
-      # IMPORTANT: This will affect whether letter_opener can open the email in the browser or not
-      # TODO: Spec this config across development, staging and production
-      config.action_mailer.default_url_options = VirtualOfficeManager.default_url_options
-      # Schedule an NGROK tunnel check to update the mailer default URL options
-      UpdateMailerDefaultURLOptionsJob.set(wait: 15.seconds).perform_later
-    end
+  # TODO: This doesn't seem to be doing what it's supposed to do
+  config.after_initialize do
+    # Schedule an NGROK tunnel check to update the mailer default URL options
+    UpdateMailerDefaultURLOptionsJob.set(wait: 15.seconds).perform_later if defined?(Rails::Server)
   end
 
   config.action_mailer.perform_caching = false

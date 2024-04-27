@@ -6,7 +6,7 @@ module PayPal
 
     def connection
       @connection ||= Faraday.new(
-        url: vendor_credentials.base_url,
+        url: vendor_credentials.api_base_url,
         headers: {
           'Content-Type': 'application/json'
         }
@@ -25,7 +25,7 @@ module PayPal
       @vendor_credentials ||=
         if (credentials = Rails.application.credentials&.paypal&.presence)
           Struct::VendorConfig.new(
-            base_url: ENV.fetch('PAYPAL_BASE_URL', credentials.base_url),
+            api_base_url: ENV.fetch('PAYPAL_API_BASE_URL', credentials.api_base_url),
             client_id: ENV.fetch('PAYPAL_CLIENT_ID', credentials.client_id),
             client_secret: ENV.fetch('PAYPAL_CLIENT_SECRET', credentials.client_secret)
           )

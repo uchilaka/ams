@@ -122,11 +122,21 @@
             </div>
           </td>
           <td class="px-6 py-4 text-end">
-            <%= link_to "Edit", edit_account_path(account), class: default_item_action_btn_classes %>
+            <div class="flex justify-end">
+              <%= button_tag "View",
+                             class: default_item_action_btn_classes,
+                             "data-modal-target": modal_dom_id(account),
+                             "data-modal-toggle": modal_dom_id(account) %>
+              <%= link_to "Edit", edit_account_path(account), class: default_item_action_btn_classes %>
+            </div>
           </td>
         </tr>
       <% end %>
       </tbody>
     </table>
+
+    <% @accounts.each do |account| %>
+      <%= render partial: 'accounts/modal', locals: { account: account } %>
+    <% end %>
   </div>
 </div>

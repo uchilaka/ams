@@ -1,0 +1,7 @@
+<%= form_with(model: invoice) do |form| %>
+<%= render "shared/error_messages", resource: form.object %>
+
+  <div class="inline">
+    <%= form.submit class: "btn btn-primary" %>
+  </div>
+<% end %>
